@@ -1,5 +1,5 @@
 ---
-import boxers from "../boxers.json"
+import boxers from "../boxers.json";
 ---
 
 <html lang="en">
@@ -8,20 +8,27 @@ import boxers from "../boxers.json"
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>La velada del año</title>
   </head>
-  <body>
+  <body class="relative">
+		
     <header class="relative">
       <div
-        class="absolute left-1/2 -translate-x-1/2 flex flex-col gap-1 justify-center items-center z-[1000]"
+        class="md:absolute md:left-1/2 md:-translate-x-1/2 flex flex-col gap-1 justify-center items-center mt-4 md:mt-0 md:top-8 z-10"
       >
         <img
           class="w-32 lg:w-64 h-auto"
+          alt="Logo de la Velada del Año, tercera edición"
           src="/logo.webp"
-          alt="Logo de la velada del año"
+          width="385"
+          height="412"
         />
         <h1
-          class="font-boxing text-6xl text-center text-white font-bold bg-clip-text text-transparent bg-gradient-to-b from-gray-300 via-gray-400 to-white inline-block leading-relaxed"
+          class="font-boxing text-3xl lg:text-5xl text-center text-white font-bold"
         >
-          La velada del año <span class="text-yellow-300">III</span>
+          <span
+            class="bg-clip-text text-transparent bg-gradient-to-b from-white via-gray-300 to-white inline-block leading-relaxed"
+            >la velada del año</span
+          >
+          <span class="text-yellow-300">III</span>
         </h1>
       </div>
     </header>
@@ -29,7 +36,7 @@ import boxers from "../boxers.json"
     <main class="relative">
       <section
         id="boxers"
-        class="flex justify-between relative [&>div>img]:absolute [&>div>img]:bottom-0 [&>div>img]:w-auto [&>div>img]:animate-ease-in-out [&>div>img]:animate-duration-700 h-[40vh] md:h-[65vh] lg:h-screen pt-4 lg:pt-24 border-b border-white/10 overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-[#131313] via-zinc-800 to-zinc-950"
+        class="flex justify-between relative [&>div>img]:absolute [&>div>img]:bottom-0 [&>div>img]:w-auto [&>div>img]:animate-ease-in-out [&>div>img]:animate-duration-700 h-[40vh] md:h-[65vh] lg:h-screen pt-4 lg:pt-24 border-b border-white/10 overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-[#131313] via-zinc-600 to-zinc-950"
       >
         <div
           class="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#131824] via-zinc-800 to-zinc-900 h-full w-full inset-0 absolute"
@@ -157,7 +164,27 @@ import boxers from "../boxers.json"
             </div>
           </div>
         </div>
-				<div id="combat"></div>
+				<div class="absolute inset-0 flex gap-x-2 left-1/2 -translate-x-1/2 w-full justify-center opacity-30">
+					<div class="w-4 h-full bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-100 to-gray-900"></div>
+					<div class="w-4 h-full bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-100 to-gray-900"></div>
+					<div class="w-4 h-full bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-100 to-gray-900"></div>
+					<div class="w-4 h-full bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-900 via-gray-100 to-gray-900"></div>
+				</div>
+        <div
+          id="combat"
+          class="absolute z-[100] bottom-48 mx-auto left-1/2 -translate-x-1/2 flex flex-col gap-y-24 opacity-0"
+        >
+          <div class="px-5 pt-4 pb-2 bg-black text-white text-center">
+            <h3 class="font-boxing text-7xl">MAYICHI</h3>
+          </div>
+          <span
+            class="left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 font-boxing text-yellow-500 text-7xl block absolute [text-shadow:2px_2px_0px_yellow]"
+            >VS.</span
+          >
+          <div class="px-5 pt-4 pb-2 bg-white text-black text-center">
+            <h3 class="font-boxing text-7xl">AMOURANTH</h3>
+          </div>
+        </div>
       </section>
     </main>
   </body>
@@ -168,17 +195,26 @@ import boxers from "../boxers.json"
     font-family: "Boxing";
     src: url("/fonts/boxing.otf");
   }
+  @font-face {
+    font-family: "boxing-striped";
+    src: url("/fonts/boxing-striped.woff2");
+  }
 </style>
 
 <script>
   const $boxers = document.getElementById("boxers");
   const $boxersImgs = $boxers.querySelectorAll("img");
 
+  const $info = document.getElementById("info");
+  const $combat = document.getElementById("combat");
+
   $boxersImgs.forEach(($img) => {
     $img.addEventListener("mouseleave", () => {
       $boxersImgs.forEach(($img) => {
         $img.setAttribute("style", "transition: all 1s ease-in-out");
       });
+      $info.setAttribute("style", "opacity: 1; transition: all 1s ease-in-out");
+      $combat.setAttribute("style", "opacity: 0; transition: all 1s ease-in-out");
     });
     $img.addEventListener("mouseenter", () => {
       const sectionImages = $img.parentNode.children;
@@ -202,6 +238,12 @@ import boxers from "../boxers.json"
         "style",
         "scale: 1.2; contrast: 1.1; transition: all 1s ease-in-out"
       );
+      $info.setAttribute("style", "opacity: 0; transition: all 1s ease-in-out");
+      $combat.setAttribute("style", "opacity: 1; transition: all 1s ease-in-out");
+
+      const [firstBoxerName, secondBoxerName] = $combat.querySelectorAll("h3");
+      firstBoxerName.innerText = leftBoxer.alt.toUpperCase();
+      secondBoxerName.innerText = rightBoxer.alt.toUpperCase();
     });
   });
 </script>
